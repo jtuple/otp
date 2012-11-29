@@ -717,6 +717,12 @@ efile_openfile(Efile_error* errInfo,		/* Where to return error codes. */
 	return 0;
     }
 
+    if (flags & EFILE_MODE_O_SYNC) {
+	errno = EINVAL;
+	check_error(-1, errInfo);
+	return 0;
+    }
+
     if (flags & EFILE_MODE_APPEND) {
 	crFlags = OPEN_ALWAYS;
     }

@@ -715,6 +715,15 @@ efile_openfile(Efile_error* errInfo,	/* Where to return error codes. */
 	mode |= O_EXCL;
     }
 
+    if (flags & EFILE_MODE_O_SYNC) {
+#ifdef O_SYNC
+	mode |= O_SYNC;
+#else
+	errno = EINVAL;
+	return check_error(-1, errInfo);
+#endif
+    }
+
 #ifdef VXWORKS
     if (*name != '/') {
 	/* Make sure it is an absolute pathname, because ftruncate needs it */
